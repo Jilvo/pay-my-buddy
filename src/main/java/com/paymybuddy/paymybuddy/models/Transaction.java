@@ -1,22 +1,23 @@
 package com.paymybuddy.paymybuddy.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    public Integer id;
 
+    @Column
     public String description;
-    public String amount;
-    public String date;
+    @Column(precision = 10, scale = 2)
+    public BigDecimal amount;
+
+    @Column
+    public LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "senderUserId", nullable = false)
@@ -26,7 +27,4 @@ public class Transaction {
     @JoinColumn(name = "receiverUserId", nullable = false)
     public User receiverUser;
 
-    @ManyToMany
-    @JoinColumn(name = "BanAccountId", nullable = false)
-    public BankAccount bankAccount;
 }

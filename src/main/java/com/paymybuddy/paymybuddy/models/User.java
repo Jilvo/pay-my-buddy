@@ -14,17 +14,23 @@ import jakarta.persistence.ManyToMany;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long userId;
+    public Integer userId;
 
+    @Column
     public String firstName;
+    @Column
     public String lastName;
+    @Column
     public String password;
+    @Column
     public String email;
 
     @Column(precision = 10, scale = 2)
     public BigDecimal balance;
 
+    @Column
     public Boolean enabled;
+    @Column
     public String role;
 
     @ManyToMany
