@@ -1,7 +1,7 @@
 create database prod;
 use prod;
-create TABLE user (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+create TABLE User (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
     password VARCHAR(255),
@@ -11,31 +11,31 @@ create TABLE user (
     role VARCHAR(255)
 );
 
-create TABLE bank_account (
-    bank_account_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+create TABLE Bank_account (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     account_number VARCHAR(255),
     iban VARCHAR(255) UNIQUE,
     user_id BIGINT,
-    FOREIGN KEY (user_id) REFERENCES User(user_id)
+    FOREIGN KEY (user_id) REFERENCES User(id)
 );
 
-create TABLE transaction (
+create TABLE Transaction (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(255),
     amount DECIMAL(10, 2),
     date DATETIME,
     sender_user_id BIGINT,
     receiver_user_id BIGINT,
-    FOREIGN KEY (sender_user_id) REFERENCES User(user_id),
-    FOREIGN KEY (receiver_user_id) REFERENCES User(user_id)
+    FOREIGN KEY (sender_user_id) REFERENCES User(id),
+    FOREIGN KEY (receiver_user_id) REFERENCES User(id)
 );
 
 create TABLE Friendship (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT,
     friend_id BIGINT,
-    PRIMARY KEY (user_id, friend_id),
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
-    FOREIGN KEY (friend_id) REFERENCES User(user_id)
+    FOREIGN KEY (user_id) REFERENCES User(id),
+    FOREIGN KEY (friend_id) REFERENCES User(id)
 );
 
 
@@ -47,7 +47,7 @@ VALUES ('John', 'Doe', 'password1', 'john.doe@example.com', 1000.00, true, 'USER
        ('Peter', 'Parker', 'password4', 'peter.parker@example.com', 4000.00, true, 'USER');
 
 -- Insert into BankAccount
-insert into bank_account (account_number, iban, user_id)
+insert into Bank_account (account_number, iban, user_id)
 values ('123456789', 'FR7630004000031234567890143', 1),
        ('987654321', 'FR7630004000039876543210143', 2),
        ('987654322', 'FR7630004000039876543210144', 3),

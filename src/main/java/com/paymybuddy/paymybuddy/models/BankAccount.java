@@ -5,23 +5,14 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "bank_account")
 public class BankAccount {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bank_account_id")
-    public Integer bank_account_id;
 
-    @Column(name = "account_number")
-    public String account_number;
-
-    @Column(unique = true, name = "iban")
-    public String iban;
 
     public Integer getBankAccountId() {
-        return bank_account_id;
+        return id;
     }
 
-    public void setBankAccountId(Integer bankAccountId) {
-        this.bank_account_id = bankAccountId;
+    public void setBankAccountId(Integer id) {
+        this.id = id;
     }
 
     public String getAccountNumber() {
@@ -48,7 +39,18 @@ public class BankAccount {
         this.user = user;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public Integer id;
+
+    @Column(name = "account_number")
+    public String account_number;
+
+    @Column(unique = true, name = "iban")
+    public String iban;
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user", nullable = false)
     public User user;
 }

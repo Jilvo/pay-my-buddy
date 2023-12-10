@@ -10,15 +10,15 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    public Integer user_id;
+    @Column(name = "id")
+    public Integer id;
 
     public Integer getUserId() {
-        return user_id;
+        return id;
     }
 
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {

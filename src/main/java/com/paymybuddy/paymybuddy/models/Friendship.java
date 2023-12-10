@@ -19,26 +19,26 @@ public class Friendship {
     }
 
     public User getUser() {
-        return user;
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(User user_id) {
+        this.user_id = user_id;
     }
 
     public User getFriend() {
-        return friend;
+        return friend_id;
     }
 
-    public void setFriend(User friend) {
-        this.friend = friend;
+    public void setFriend(User friend_id) {
+        this.friend_id = friend_id;
     }
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    public User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    public User user_id;
 
     @ManyToOne
     @JoinColumn(name = "friend_id", nullable = false)
-    public User friend;
+    public User friend_id;
 }
