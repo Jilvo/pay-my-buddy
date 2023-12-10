@@ -1,58 +1,54 @@
-// package com.paymybuddy.paymybuddy.models;
+package com.paymybuddy.paymybuddy.models;
 
-// import jakarta.persistence.Column;
-// import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
-// import jakarta.persistence.JoinColumn;
-// import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
-// @Entity
-// public class BankAccount {
-// @Id
-// @GeneratedValue(strategy = GenerationType.IDENTITY)
-// public Integer bankAccountId;
+@Entity
+@Table(name = "bank_account")
+public class BankAccount {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bank_account_id")
+    public Integer bank_account_id;
 
-// @Column
-// public String accountNumber;
+    @Column(name = "account_number")
+    public String account_number;
 
-// @Column(unique = true)
-// public String iban;
+    @Column(unique = true, name = "iban")
+    public String iban;
 
-// public Integer getBankAccountId() {
-// return bankAccountId;
-// }
+    public Integer getBankAccountId() {
+        return bank_account_id;
+    }
 
-// public void setBankAccountId(Integer bankAccountId) {
-// this.bankAccountId = bankAccountId;
-// }
+    public void setBankAccountId(Integer bankAccountId) {
+        this.bank_account_id = bankAccountId;
+    }
 
-// public String getAccountNumber() {
-// return accountNumber;
-// }
+    public String getAccountNumber() {
+        return account_number;
+    }
 
-// public void setAccountNumber(String accountNumber) {
-// this.accountNumber = accountNumber;
-// }
+    public void setAccountNumber(String account_number) {
+        this.account_number = account_number;
+    }
 
-// public String getIban() {
-// return iban;
-// }
+    public String getIban() {
+        return iban;
+    }
 
-// public void setIban(String iban) {
-// this.iban = iban;
-// }
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
 
-// public User getUser() {
-// return user;
-// }
+    public User getUser() {
+        return user;
+    }
 
-// public void setUser(User user) {
-// this.user = user;
-// }
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-// @ManyToOne
-// @JoinColumn(name = "userId", nullable = false)
-// public User user;
-// }
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    public User user;
+}

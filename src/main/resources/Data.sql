@@ -1,9 +1,9 @@
-create database prod if not exists;
+create database prod;
 use prod;
-CREATE TABLE User (
-    userId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
+create TABLE user (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     password VARCHAR(255),
     email VARCHAR(255),
     balance DECIMAL(10, 2),
@@ -11,50 +11,60 @@ CREATE TABLE User (
     role VARCHAR(255)
 );
 
-CREATE TABLE BankAccount (
-    bankAccountId BIGINT AUTO_INCREMENT PRIMARY KEY,
-    accountNumber VARCHAR(255),
+create TABLE bank_account (
+    bank_account_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    account_number VARCHAR(255),
     iban VARCHAR(255) UNIQUE,
-    userId BIGINT,
-    FOREIGN KEY (userId) REFERENCES User(userId)
+    user_id BIGINT,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE Transaction (
+create TABLE transaction (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     description VARCHAR(255),
     amount DECIMAL(10, 2),
     date DATETIME,
-    senderUserId BIGINT,
-    receiverUserId BIGINT,
-    FOREIGN KEY (senderUserId) REFERENCES User(userId),
-    FOREIGN KEY (receiverUserId) REFERENCES User(userId)
+    sender_user_id BIGINT,
+    receiver_user_id BIGINT,
+    FOREIGN KEY (sender_user_id) REFERENCES User(user_id),
+    FOREIGN KEY (receiver_user_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE Friendship (
-    userId BIGINT,
-    friendId BIGINT,
-    PRIMARY KEY (userId, friendId),
-    FOREIGN KEY (userId) REFERENCES User(userId),
-    FOREIGN KEY (friendId) REFERENCES User(userId)
+create TABLE Friendship (
+    user_id BIGINT,
+    friend_id BIGINT,
+    PRIMARY KEY (user_id, friend_id),
+    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (friend_id) REFERENCES User(user_id)
 );
 
 
 -- Insert into User
-INSERT INTO User (firstName, lastName, password, email, balance, enabled, role)
+insert into User (first_name, last_name, password, email, balance, enabled, role)
 VALUES ('John', 'Doe', 'password1', 'john.doe@example.com', 1000.00, true, 'USER'),
-       ('Jane', 'Doe', 'password2', 'jane.doe@example.com', 2000.00, true, 'USER');
+       ('Jane', 'Doe', 'password2', 'jane.doe@example.com', 2000.00, true, 'USER'),
+       ('Jean', 'Valjean', 'password3', 'jean.valjean@example.com', 3000.00, true, 'USER'),
+       ('Peter', 'Parker', 'password4', 'peter.parker@example.com', 4000.00, true, 'USER');
 
 -- Insert into BankAccount
-INSERT INTO BankAccount (accountNumber, iban, userId)
-VALUES ('123456789', 'FR7630004000031234567890143', 1),
-       ('987654321', 'FR7630004000039876543210143', 2);
+insert into bank_account (account_number, iban, user_id)
+values ('123456789', 'FR7630004000031234567890143', 1),
+       ('987654321', 'FR7630004000039876543210143', 2),
+       ('987654322', 'FR7630004000039876543210144', 3),
+       ('987654323', 'FR7630004000039876543210145', 4);
 
 -- Insert into Transaction
-INSERT INTO Transaction (description, amount, date, senderUserId, receiverUserId)
-VALUES ('Payment for services', 100.00, '2022-01-01 10:00:00', 1, 2),
-       ('Refund for overpayment', 50.00, '2022-01-02 11:00:00', 2, 1);
+insert into Transaction (description, amount, date, sender_user_id, receiver_user_id)
+values ('Payment for services', 100.00, '2022-01-01 10:00:00', 1, 2),
+       ('Refund for overpayment', 50.00, '2022-01-02 11:00:00', 2, 1),
+        ('Refund for overpayment', 50.00, '2022-01-03 11:00:00', 3, 1),
+         ('Refund for overpayment', 500.00, '2022-01-04 11:00:00', 3, 4);
 
 -- Insert into Friendship
-INSERT INTO Friendship (userId, friendId)
-VALUES (1, 2),
-       (2, 1);
+insert into Friendship (user_id, friend_id)
+values (1, 2),
+       (2, 1),
+       (3, 1),
+       (3, 2),
+       (3, 3),
+       (3, 4);
