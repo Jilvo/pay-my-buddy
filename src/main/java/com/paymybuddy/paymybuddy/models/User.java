@@ -77,14 +77,6 @@ public class User {
         this.role = role;
     }
 
-//    public List<User> getListOfFriends() {
-//        return listOfFriends;
-//    }
-//
-//    public void setListOfFriends(List<User> listOfFriends) {
-//        this.listOfFriends = listOfFriends;
-//    }
-
     @Column
     public String first_name;
     @Column
@@ -102,7 +94,15 @@ public class User {
     @Column
     public String role;
 
-//    @ManyToMany
-//    public List<User> listOfFriends;
+    public User(String first_name, String last_name, String password, String email, BigDecimal balance, Boolean enabled,
+            String role) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+        this.email = email;
+        this.balance = balance;
+        this.enabled = enabled;
+        this.role = role;
+    }
 
 }

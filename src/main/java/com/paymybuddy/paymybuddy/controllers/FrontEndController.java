@@ -2,9 +2,11 @@ package com.paymybuddy.paymybuddy.controllers;
 
 import com.paymybuddy.paymybuddy.models.Friendship;
 import com.paymybuddy.paymybuddy.models.Transaction;
+import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.services.FriendshipService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,7 @@ public class FrontEndController {
         // Get all transactions from User ID
         List<Transaction> transactions = transactionService.getTransactionsByUserId(Integer.valueOf("1"));
         model.addAttribute("transactions", transactions);
+        // Get current user from Spring Security
 //        List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
 //        model.addAttribute("bankAccounts", bankAccounts);
         return "transfer";
