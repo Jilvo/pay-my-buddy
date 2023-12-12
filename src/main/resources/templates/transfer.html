@@ -1,55 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <link
-            rel="stylesheet"
-            th:href="@{/styles/style.css}"
-            href="../static/styles/style.css"
+      rel="stylesheet"
+      th:href="@{/styles/style.css}"
+      href="../static/styles/style.css"
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Transfer</title>
-</head>
-<body>
-<div th:replace="base :: common-nav"></div>
+  </head>
+  <body>
+    <div th:insert="~{base :: common-nav}"></div>
 
-<div>
     <div>
+      <div>
         <p>Send Money</p>
         <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-            Add Connection
+          Add Connection
         </button>
-    </div>
-    <div>
+      </div>
+      <div>
         <button>Select A connection</button>
-        <tr th:each="friendship : ${friendships}">
-            <td th:text="${friendship.user_id.first_name}"></td>
-            <td th:text="${friendship.friend_id.first_name}"></td>
-        </tr>
+        <!--        <tr th:each="friendship : ${friendships}">-->
+        <!--            <td th:text="${friendship.user_id.first_name}"></td>-->
+        <!--            <td th:text="${friendship.friend_id.first_name}"></td>-->
+        <!--        </tr>-->
         <button>0€</button>
         <button
-                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
         >
-            Pay
+          Pay
         </button>
+      </div>
     </div>
-</div>
-<section>
-    <p>My Transactions</p>
-    <table class="table-auto bg-green-200">
+    <section>
+      <p>My Transactions</p>
+      <table class="table-auto bg-green-200">
         <thead>
-        <td>Connections</td>
-        <td>Description</td>
-        <td>Amount</td>
+          <td>Connections</td>
+          <td>Description</td>
+          <td>Amount</td>
         </thead>
-        <tr th:each="transaction : ${transactions}">
-            <td th:text="${transaction.sender_user_id.first_name}"></td>
-            <td th:text="${transaction.description}"></td>
-            <td th:text="${transaction.amount}"></td>
-        </tr>
-    </table>
-</section>
-</body>
+        <!--        <tr th:each="transaction : ${transactions}">-->
+        <!--            <td th:text="${transaction.sender_user_id.first_name}"></td>-->
+        <!--            <td th:text="${transaction.description}"></td>-->
+        <!--            <td th:text="${transaction.amount}"></td>-->
+        <!--        </tr>-->
+      </table>
+    </section>
+  </body>
 </html>

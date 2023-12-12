@@ -76,4 +76,6 @@ public class Transaction {
     @JoinColumn(name = "receiver_user_id", nullable = false)
     public User receiver_user_id;
 
+    public Transaction() {
+    }
 }

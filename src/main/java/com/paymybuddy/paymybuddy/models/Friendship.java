@@ -41,4 +41,7 @@ public class Friendship {
     @ManyToOne
     @JoinColumn(name = "friend_id", nullable = false)
     public User friend_id;
+
+    public Friendship() {
+    }
 }

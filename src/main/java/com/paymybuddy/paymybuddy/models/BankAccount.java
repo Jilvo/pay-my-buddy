@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "bank_account")
 public class BankAccount {
 
-
     public Integer getBankAccountId() {
         return id;
     }
@@ -53,4 +52,7 @@ public class BankAccount {
     @ManyToOne
     @JoinColumn(name = "user", nullable = false)
     public User user;
+
+    public BankAccount() {
+    }
 }
