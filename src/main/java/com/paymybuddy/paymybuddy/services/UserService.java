@@ -29,7 +29,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
-        System.out.println("User: " + user);
         if (user == null) {
             throw new UsernameNotFoundException("Not found!");
         }
@@ -39,6 +38,15 @@ public class UserService implements UserDetailsService {
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(String role) {
         return null;
+    }
+
+    public void connect(User user) {
+        User user_indb = (User) loadUserByUsername(user.getEmail());
+        if (user.getPassword().equals(user_indb.getPassword())) {
+            System.out.println("User connected");
+        } else {
+            System.out.println("Wrong password");
+        }
     }
 
 }

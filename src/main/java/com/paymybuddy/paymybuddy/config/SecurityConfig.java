@@ -13,42 +13,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+        // @Bean
+        // public PasswordEncoder passwordEncoder() {
+        // return new BCryptPasswordEncoder();
+        // }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
-                                .csrf(csrf -> csrf.disable()) // Désactiver CSRF
-                                .authorizeRequests(authorizeRequests -> authorizeRequests
-                                                .requestMatchers("/styles/**", "/pics/**").permitAll()
-                                                .requestMatchers("/").permitAll()
-                                                .requestMatchers("/register").permitAll()
-                                                .requestMatchers("/error").permitAll()
+                                .csrf().disable() // Désactiver CSRF
+                                .authorizeRequests()
+                                .requestMatchers("/", "/signup", "/login", "/perform_signup", "/perform_login")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                                .and()
+                                .formLogin()
 
-                                                .dispatcherTypeMatchers(HttpMethod.valueOf("/login")).permitAll() // Permet
-                                                                                                                  // à
-                                                                                                                  // tout
-                                                                                                                  // le
-                                                                                                                  // monde
-                                                                                                                  // d'accéder
-                                                                                                                  // à
-                                                                                                                  // /login
+                                .loginPage("/login") // Utiliser votre page de connexion personnalisée
 
-                                                .anyRequest().authenticated() // Toutes les autres requêtes nécessitent
-                                                                              // une authentification
-                                )
-                                .formLogin(formLogin -> formLogin.loginPage("/login") // Utiliser votre page de
-                                                                                      // connexion personnalisée
-                                                .loginProcessingUrl("/perform_login") // Endpoint qui traitera le
-                                                                                      // formulaire de connexion
-                                                .defaultSuccessUrl("/", true) // Rediriger vers cette page en cas de
-                                                                              // succès
-                                                // .usernameParameter("email") // Set the username parameter
-                                                .permitAll())
-                                .logout(logout -> logout.permitAll());
+                                .defaultSuccessUrl("/transfer", true)
+                                .permitAll()
+                                .and()
+                                .logout()
+                                .permitAll();
+
                 return http.build();
         }
 }

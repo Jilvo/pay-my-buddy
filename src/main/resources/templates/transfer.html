@@ -13,43 +13,59 @@
   <body>
     <div th:insert="~{base :: common-nav}"></div>
 
-    <div>
-      <div>
-        <p>Send Money</p>
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    <div class="bg-gray-100 p-8">
+      <div class="mb-6">
+        <div class="flex flex-row justify-between">
+
+          <h2 class="text-lg font-semibold mb-2">Send Money</h2>
+          <div><button
+            class="bg-blue-500 text-white py-2 px-4 rounded"
+            >Add Connection</div>
+          </div>
+            <div
+          class="bg-white p-4 rounded-lg shadow flex justify-between items-center"
         >
-          Add Connection
-        </button>
+          <div class="flex space-x-2">
+            <select class="border border-gray-300 rounded p-2">
+              <option>Select A Connection</option>
+              <option th:each="friendship : ${friendships}" th:value="${friendship.user_id}" th:text="${friendship.user_id.first_name}"></option>
+            </select>
+            <input
+              type="text"
+              placeholder="0€"
+              class="border border-gray-300 rounded p-2"
+            />
+          </div>
+          <button class="bg-green-500 text-white py-2 px-4 rounded">Pay</button>
+        </div>
       </div>
-      <div>
-        <button>Select A connection</button>
-        <!--        <tr th:each="friendship : ${friendships}">-->
-        <!--            <td th:text="${friendship.user_id.first_name}"></td>-->
-        <!--            <td th:text="${friendship.friend_id.first_name}"></td>-->
-        <!--        </tr>-->
-        <button>0€</button>
-        <button
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Pay
-        </button>
+
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold mb-2">My Transactions</h2>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <table class="min-w-full">
+            <thead class="bg-green-500 text-white">
+              <tr>
+                <th class="p-2">Connections</th>
+                <th class="p-2">Description</th>
+                <th class="p-2">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="transaction : ${transactions}">
+                <td th:text="${transaction.sender_user_id.first_name}"></td>
+                <td th:text="${transaction.description}"></td>
+                <td th:text="${transaction.amount}"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="flex justify-center items-center space-x-1 mt-4">
+            <a href="#" class="p-1 border rounded">«</a>
+            <!-- Add pagination here -->
+            <a href="#" class="p-1 border rounded">»</a>
+          </div>
+        </div>
       </div>
     </div>
-    <section>
-      <p>My Transactions</p>
-      <table class="table-auto bg-green-200">
-        <thead>
-          <td>Connections</td>
-          <td>Description</td>
-          <td>Amount</td>
-        </thead>
-        <!--        <tr th:each="transaction : ${transactions}">-->
-        <!--            <td th:text="${transaction.sender_user_id.first_name}"></td>-->
-        <!--            <td th:text="${transaction.description}"></td>-->
-        <!--            <td th:text="${transaction.amount}"></td>-->
-        <!--        </tr>-->
-      </table>
-    </section>
   </body>
 </html>

@@ -55,4 +55,10 @@ public class BankAccount {
 
     public BankAccount() {
     }
+
+    public BankAccount(String account_number, String iban, User user) {
+        this.account_number = account_number;
+        this.iban = iban;
+        this.user = user;
+    }
 }

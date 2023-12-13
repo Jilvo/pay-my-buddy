@@ -28,7 +28,7 @@ public class FrontEndController {
 
     @GetMapping(value = "/")
     public String getHomeTemplate(@RequestParam(name = "name", required = false, defaultValue = "World") String param,
-                                  Model model) {
+            Model model) {
         return "home";
     }
 
@@ -37,14 +37,14 @@ public class FrontEndController {
             @RequestParam(name = "name", required = false, defaultValue = "World") String param,
             Model model) {
         // Get all Friendships from User ID
-//        List<Friendship> friendships = friendshipService.getFriendshipsByUserId(Integer.valueOf("1"));
-//        model.addAttribute("friendships", friendships);
+        List<Friendship> friendships = friendshipService.getFriendshipsByUserId(Integer.valueOf("1"));
+        model.addAttribute("friendships", friendships);
         // Get all transactions from User ID
-//        List<Transaction> transactions = transactionService.getTransactionsByUserId(Integer.valueOf("1"));
-//        model.addAttribute("transactions", transactions);
+        List<Transaction> transactions = transactionService.getTransactionsByUserId(Integer.valueOf("1"));
+        model.addAttribute("transactions", transactions);
         // Get current user from Spring Security
-//        List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
-//        model.addAttribute("bankAccounts", bankAccounts);
+        // List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
+        // model.addAttribute("bankAccounts", bankAccounts);
         return "transfer";
     }
 

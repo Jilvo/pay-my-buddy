@@ -17,8 +17,8 @@ public class BankAccountController {
         this.bankAccountService = bankAccountService;
     }
 
-    @GetMapping("/bank-accounts")
-    public List<BankAccount> getAllBankAccounts() {
-        return bankAccountService.getAllBankAccounts();
-    }
+    // @GetMapping("/bank-accounts")
+    // public List<BankAccount> getAllBankAccounts() {
+    // return bankAccountService.getAllBankAccounts();
+    // }
 }
