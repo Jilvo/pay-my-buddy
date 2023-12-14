@@ -25,21 +25,24 @@
             <div
           class="bg-white p-4 rounded-lg shadow flex justify-between items-center"
         >
+        <form  action="/create_transaction" method="post">
           <div class="flex space-x-2">
             <select class="border border-gray-300 rounded p-2">
               <option>Select A Connection</option>
-              <option th:each="friendship : ${friendships}" th:value="${friendship.user_id}" th:text="${friendship.user_id.first_name}"></option>
+              <option th:each="friendship : ${friendships}" th:id="${friendship.user_id}" th:value="${friendship.user_id}" th:text="${friendship.user_id.first_name}"></option>
             </select>
             <input
-              type="text"
-              placeholder="0€"
-              class="border border-gray-300 rounded p-2"
+            type="text"
+            
+            placeholder="0€"
+            class="border border-gray-300 rounded p-2"
             />
           </div>
           <button class="bg-green-500 text-white py-2 px-4 rounded">Pay</button>
+        </form>
         </div>
       </div>
-
+      
       <div class="mb-6">
         <h2 class="text-lg font-semibold mb-2">My Transactions</h2>
         <div class="bg-white p-4 rounded-lg shadow">

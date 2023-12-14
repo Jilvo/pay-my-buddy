@@ -49,4 +49,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).get();
+    }
 }

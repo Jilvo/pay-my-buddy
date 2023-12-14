@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -39,5 +40,11 @@ public class SecurityConfig {
                                 .permitAll();
 
                 return http.build();
+        }
+
+        @SuppressWarnings("deprecation")
+        @Bean
+        public NoOpPasswordEncoder passwordEncoder() {
+                return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
         }
 }
