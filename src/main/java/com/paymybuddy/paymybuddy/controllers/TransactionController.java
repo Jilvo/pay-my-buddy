@@ -15,11 +15,11 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping("/create_transaction")
-    public String createTransaction(@RequestParam("friendship") Integer receiverId,
-            @RequestParam("amount") Double amount) {
-        System.out.println("TransactionController.createTransaction");
-        transactionService.createTransaction(transaction);
-        return "transfer";
-    }
+//    @PostMapping("/create_transaction")
+//    public String createTransaction(@RequestParam("friendship") Integer receiverId,
+//            @RequestParam("amount") Double amount) {
+//        System.out.println("TransactionController.createTransaction");
+//        transactionService.createTransaction(transaction);
+//        return "transfer";
+//    }
 }

@@ -5,8 +5,11 @@ import com.paymybuddy.paymybuddy.models.Transaction;
 import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.services.FriendshipService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
+import com.paymybuddy.paymybuddy.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +22,14 @@ public class FrontEndController {
 
     private final TransactionService transactionService;
     private final FriendshipService friendshipService;
+    private final UserService userService;
 
     @Autowired
-    public FrontEndController(TransactionService transactionService, FriendshipService friendshipService) {
+    public FrontEndController(TransactionService transactionService, FriendshipService friendshipService,
+            UserService userService) {
         this.transactionService = transactionService;
         this.friendshipService = friendshipService;
+        this.userService = userService;
     }
 
     @GetMapping(value = "/")
@@ -37,6 +43,13 @@ public class FrontEndController {
             @RequestParam(name = "name", required = false, defaultValue = "World") String param,
             Model model) {
         // Get all Friendships from User ID
+        // UserDetails userDetails = (UserDetails)
+        // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // String username = userDetails.getUsername();
+        // User user = userService.getUserByUsername(username);
+        // int userId = user.getUserId();
+        // List<Friendship> friendships =
+        // friendshipService.getFriendshipsByUserId(userId);
         List<Friendship> friendships = friendshipService.getFriendshipsByUserId(Integer.valueOf("1"));
         model.addAttribute("friendships", friendships);
         // Get all transactions from User ID

@@ -79,12 +79,12 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String description, BigDecimal amount, String sender_user_id, String receiver_user_id) {
-        this.description = description;
-        this.amount = amount;
-        this.date = LocalDateTime.now();
-        this.sender_user_id = sender_user_id;
-        this.receiver_user_id = receiver_user_id;
-
-    }
+//    public Transaction(String description, BigDecimal amount, String sender_user_id, String receiver_user_id) {
+//        this.description = description;
+//        this.amount = amount;
+//        this.date = LocalDateTime.now();
+//        this.sender_user_id = sender_user_id;
+//        this.receiver_user_id = receiver_user_id;
+//
+//    }
 }
