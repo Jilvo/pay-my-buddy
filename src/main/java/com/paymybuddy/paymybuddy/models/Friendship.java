@@ -9,6 +9,13 @@ public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @ManyToOne
+    @JoinColumn(name = "userId", nullable = false)
+    public User userId;
+
+    @ManyToOne
+    @JoinColumn(name = "friendId", nullable = false)
+    public User friendId;
 
     public Integer getId() {
         return id;
@@ -18,29 +25,21 @@ public class Friendship {
         this.id = id;
     }
 
-    public User getUser() {
-        return user_id;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUser(User user_id) {
-        this.user_id = user_id;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
-    public User getFriend() {
-        return friend_id;
+    public User getFriendId() {
+        return friendId;
     }
 
-    public void setFriend(User friend_id) {
-        this.friend_id = friend_id;
+    public void setFriendId(User friendId) {
+        this.friendId = friendId;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    public User user_id;
-
-    @ManyToOne
-    @JoinColumn(name = "friend_id", nullable = false)
-    public User friend_id;
 
     public Friendship() {
     }

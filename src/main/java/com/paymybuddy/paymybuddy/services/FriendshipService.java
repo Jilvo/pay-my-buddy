@@ -1,6 +1,7 @@
 package com.paymybuddy.paymybuddy.services;
 
 import com.paymybuddy.paymybuddy.models.Friendship;
+import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.repositories.FriendshipRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class FriendshipService {
         return friendshipRepository.findAll();
     }
 
-    public List<Friendship> getFriendshipsByUserId(Integer user_id) {
-        return friendshipRepository.findAllById(Collections.singleton(user_id));
+    public List<Friendship> getFriendshipsByUserId(Integer userId) {
+        return friendshipRepository.findByUserId_Id(userId);
     }
 }

@@ -26,14 +26,15 @@
           class="bg-white p-4 rounded-lg shadow flex justify-between items-center"
         >
         <form  action="/create_transaction" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <div class="flex space-x-2">
-            <select class="border border-gray-300 rounded p-2">
+            <select name="friendship" class="border border-gray-300 rounded p-2">
               <option>Select A Connection</option>
-              <option th:each="friendship : ${friendships}" th:id="${friendship.user_id}" th:value="${friendship.user_id}" th:text="${friendship.user_id.first_name}"></option>
+              <option th:each="friendship : ${friendships}" th:id="${friendship.friendId.id}" th:value="${friendship.friendId.id}" th:text="${friendship.friendId.first_name}"></option>
             </select>
             <input
             type="text"
-            
+            name="amount"
             placeholder="0€"
             class="border border-gray-300 rounded p-2"
             />
@@ -52,13 +53,16 @@
                 <th class="p-2">Connections</th>
                 <th class="p-2">Description</th>
                 <th class="p-2">Amount</th>
+                <th class="p-2">To</th>
+
               </tr>
             </thead>
             <tbody>
               <tr th:each="transaction : ${transactions}">
-                <td th:text="${transaction.sender_user_id.first_name}"></td>
+                <td th:text="${transaction.senderUser.first_name}"></td>
                 <td th:text="${transaction.description}"></td>
                 <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.receiverUser.first_name}"></td>
               </tr>
             </tbody>
           </table>

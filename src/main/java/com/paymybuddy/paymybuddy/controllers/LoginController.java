@@ -12,9 +12,11 @@ import com.paymybuddy.paymybuddy.services.UserService;
 @Controller
 public class LoginController {
     private final UserService userService;
+    private final BankAccountService bankAccountService;
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, BankAccountService bankAccountService) {
         this.userService = userService;
+        this.bankAccountService = bankAccountService;
     }
 
     @GetMapping("/login")
@@ -27,5 +29,18 @@ public class LoginController {
         System.out.println("LoginController.performLogin");
         userService.connect(user);
         return "transfer";
+    }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
+
+    @PostMapping("/perform_signup")
+    public String performSignUp(@ModelAttribute User user) {
+
+        userService.createUser(user);
+        bankAccountService.createBankAccount(user);
+        return "signup";
     }
 }

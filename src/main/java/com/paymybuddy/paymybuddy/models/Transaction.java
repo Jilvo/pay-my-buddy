@@ -45,19 +45,19 @@ public class Transaction {
     }
 
     public User getSenderUser() {
-        return sender_user_id;
+        return senderUser;
     }
 
-    public void setSenderUser(User sender_user_id) {
-        this.sender_user_id = sender_user_id;
+    public void setSenderUser(User senderUser) {
+        this.senderUser = senderUser;
     }
 
     public User getReceiverUser() {
-        return receiver_user_id;
+        return receiverUser;
     }
 
-    public void setReceiverUser(User receiver_user_id) {
-        this.receiver_user_id = receiver_user_id;
+    public void setReceiverUser(User receiverUser) {
+        this.receiverUser = receiverUser;
     }
 
     @Column
@@ -69,22 +69,22 @@ public class Transaction {
     public LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "sender_user_id", nullable = false)
-    public User sender_user_id;
+    @JoinColumn(name = "senderUser", nullable = false)
+    public User senderUser;
 
     @ManyToOne
-    @JoinColumn(name = "receiver_user_id", nullable = false)
-    public User receiver_user_id;
+    @JoinColumn(name = "receiverUser", nullable = false)
+    public User receiverUser;
 
     public Transaction() {
     }
 
-//    public Transaction(String description, BigDecimal amount, String sender_user_id, String receiver_user_id) {
-//        this.description = description;
-//        this.amount = amount;
-//        this.date = LocalDateTime.now();
-//        this.sender_user_id = sender_user_id;
-//        this.receiver_user_id = receiver_user_id;
-//
-//    }
+    public Transaction(String description, BigDecimal amount, User senderUser, User receiverUser) {
+        this.description = description;
+        this.amount = amount;
+        this.date = LocalDateTime.now();
+        this.senderUser = senderUser;
+        this.receiverUser = receiverUser;
+
+    }
 }

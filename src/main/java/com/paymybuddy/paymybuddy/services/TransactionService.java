@@ -23,15 +23,12 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public List<Transaction> getTransactionsByUserId(Integer user_id) {
-        return transactionRepository.findAllById(Collections.singleton(user_id));
+    public List<Transaction> getTransactionsByUserId(int senderUser) {
+        return transactionRepository.findBySenderUser_Id(senderUser);
     }
 
     public void createTransaction(Transaction transaction) {
         System.out.println("TransactionService.createTransaction");
-        // User senderUser = userService.getUserById(transaction.sender_user_id);
-        // Transaction newTransaction = new Transaction(transaction.getSender_id(),
-        // transaction.getReceiver_id(),
-        // transaction.getAmount(), transaction.getDescription());
+        transactionRepository.save(transaction);
     }
 }

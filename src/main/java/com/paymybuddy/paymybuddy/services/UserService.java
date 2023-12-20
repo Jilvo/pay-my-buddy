@@ -1,15 +1,16 @@
 package com.paymybuddy.paymybuddy.services;
 
-import com.paymybuddy.paymybuddy.models.User;
-import com.paymybuddy.paymybuddy.repositories.UserRepository;
-
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.paymybuddy.paymybuddy.models.User;
+import com.paymybuddy.paymybuddy.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -51,5 +52,9 @@ public class UserService implements UserDetailsService {
 
     public User getUserById(Integer id) {
         return userRepository.findById(id).get();
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

@@ -58,10 +58,13 @@ public class SecurityConfig {
 
         @Bean
         UserDetailsManager inMemoryUserDetailsManager() {
-                var user1 = User.withUsername("user").password("{noop}password").roles("USER").build();
-                var user2 = User.withUsername("admin").password("{noop}password").roles("USER", "ADMIN").build();
-                var user3 = User.withUsername("test@gmail.com").password("{noop}123").roles("USER").build();
-                return new InMemoryUserDetailsManager(user1, user2, user3);
+                var user1 = User.withUsername("john.doe@example.com").password("{noop}password1").roles("USER").build();
+                var user2 = User.withUsername("jane.doe@example.com").password("{noop}password2").roles("USER", "ADMIN")
+                                .build();
+                var user3 = User.withUsername("jean.valjean@example.com").password("{noop}password3").roles("USER")
+                                .build();
+                var user4 = User.withUsername("test@gmail.com").password("{noop}123").roles("USER").build();
+                return new InMemoryUserDetailsManager(user1, user2, user3, user4);
         }
 
 }
