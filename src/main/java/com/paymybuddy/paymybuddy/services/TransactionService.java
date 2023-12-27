@@ -23,8 +23,8 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public List<Transaction> getTransactionsByUserId(int senderUser) {
-        return transactionRepository.findBySenderUser_Id(senderUser);
+    public List<Transaction> getTransactionsByUserId(int senderUserId) {
+        return transactionRepository.findBySenderUser_Id(senderUserId);
     }
 
     public void createTransaction(Transaction transaction) {

@@ -44,19 +44,19 @@ public class Transaction {
         this.date = date;
     }
 
-    public User getSenderUser() {
+    public User getSender_user() {
         return senderUser;
     }
 
-    public void setSenderUser(User senderUser) {
+    public void setSender_user(User senderUser) {
         this.senderUser = senderUser;
     }
 
-    public User getReceiverUser() {
+    public User getReceiver_user() {
         return receiverUser;
     }
 
-    public void setReceiverUser(User receiverUser) {
+    public void setReceiver_user(User receiverUser) {
         this.receiverUser = receiverUser;
     }
 
@@ -69,11 +69,11 @@ public class Transaction {
     public LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "senderUser", nullable = false)
+    @JoinColumn(name = "sender_user", nullable = false)
     public User senderUser;
 
     @ManyToOne
-    @JoinColumn(name = "receiverUser", nullable = false)
+    @JoinColumn(name = "receiver_user", nullable = false)
     public User receiverUser;
 
     public Transaction() {

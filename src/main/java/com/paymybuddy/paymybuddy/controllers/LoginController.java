@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.services.BankAccountService;
@@ -37,10 +38,10 @@ public class LoginController {
     }
 
     @PostMapping("/perform_signup")
-    public String performSignUp(@ModelAttribute User user) {
+    public RedirectView performSignUp(@ModelAttribute User user) {
 
         userService.createUser(user);
         bankAccountService.createBankAccount(user);
-        return "signup";
+        return new RedirectView("transfer");
     }
 }

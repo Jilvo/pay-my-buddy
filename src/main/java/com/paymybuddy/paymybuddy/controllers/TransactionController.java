@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -58,15 +59,15 @@ public class TransactionController {
     }
 
     @PostMapping("/create_transaction")
-    public String createTransaction(@RequestParam("friendship") int receiver,
+    public RedirectView createTransaction(@RequestParam("friendship") int receiver,
             @RequestParam("amount") BigDecimal amount) {
         User receiverUser = userService.getUserById(receiver);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
-        User senderUser = userService.findUserByEmail(email);
-        Transaction transaction = new Transaction("test", amount, senderUser, receiverUser);
+        User sender_user = userService.findUserByEmail(email);
+        Transaction transaction = new Transaction("test", amount, sender_user, receiverUser);
         System.out.println("TransactionController.createTransaction");
         transactionService.createTransaction(transaction);
-        return "transfer";
+        return new RedirectView("transfer");
     }
 }

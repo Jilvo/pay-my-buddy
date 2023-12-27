@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,9 +37,10 @@ public class FrontEndController {
     }
 
     @GetMapping(value = "/")
-    public String getHomeTemplate(@RequestParam(name = "name", required = false, defaultValue = "World") String param,
+    public RedirectView getHomeTemplate(
+            @RequestParam(name = "name", required = false, defaultValue = "World") String param,
             Model model) {
-        return "home";
+        return new RedirectView("transfer");
     }
 
 }

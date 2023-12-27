@@ -38,7 +38,8 @@ public class SecurityConfig {
         SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests((authorize) -> authorize
-                                                .requestMatchers("/css/**", "/favicon.ico", "/", "/index", "signup")
+                                                .requestMatchers("/css/**", "/favicon.ico", "/", "/index", "/signup",
+                                                                "/perform_signup")
                                                 .permitAll()
                                                 .requestMatchers("/user").hasAnyRole("USER")
                                                 .requestMatchers("/admin").hasAnyRole("ADMIN")

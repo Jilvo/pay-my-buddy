@@ -59,10 +59,10 @@
             </thead>
             <tbody>
               <tr th:each="transaction : ${transactions}">
-                <td th:text="${transaction.senderUser.first_name}"></td>
+                <td th:text="${transaction.sender_user.first_name}"></td>
                 <td th:text="${transaction.description}"></td>
                 <td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.receiverUser.first_name}"></td>
+                <td th:text="${transaction.receiver_user.first_name}"></td>
               </tr>
             </tbody>
           </table>
