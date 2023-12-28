@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,20 +42,41 @@ public class TransactionController {
             @RequestParam(name = "name", required = false) @PathVariable String Username,
             String param,
             Model model) {
-        // Get all Friendships from User ID
 
+        // Get all Friendships from User ID
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         User user = userService.findUserByEmail(email);
         int userId = user.getUserId();
         List<Friendship> friendships = friendshipService.getFriendshipsByUserId(userId);
         model.addAttribute("friendships", friendships);
+
+        // Get unconnected users
+        List<User> unconnectedUsers = userService.getUnconnectedUsers(userId);
+
+        List<User> usersToRemove = new ArrayList<>();
+        for (User user_item : unconnectedUsers) {
+            // Loop through each friendship
+            for (Friendship friendship : friendships) {
+                // If the user is in the friendship, add them to the list of users to be removed
+                if (friendship.getFriendId().getUserId() == user_item.getUserId()) {
+                    usersToRemove.add(user_item);
+                    break;
+                }
+            }
+        }
+        // Remove all users in the list of users to be removed from the list of
+        // unconnected users
+        unconnectedUsers.removeAll(usersToRemove);
+        model.addAttribute("unconnectedUsers", unconnectedUsers);
         // Get all transactions from User ID
         List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
         model.addAttribute("transactions", transactions);
+
         // Get current user from Spring Security
         // List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
         // model.addAttribute("bankAccounts", bankAccounts);
+
         return "transfer";
     }
 

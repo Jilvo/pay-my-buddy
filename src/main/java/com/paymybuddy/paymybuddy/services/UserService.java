@@ -1,6 +1,7 @@
 package com.paymybuddy.paymybuddy.services;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -56,5 +57,12 @@ public class UserService implements UserDetailsService {
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public List<User> getUnconnectedUsers(int userId) {
+        List<User> users = userRepository.findAll();
+        users.removeIf(user -> user.getUserId() == userId);
+
+        return userRepository.getUnconnectedUsers(userId);
     }
 }
