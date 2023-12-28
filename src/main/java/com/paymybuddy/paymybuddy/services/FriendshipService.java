@@ -24,4 +24,8 @@ public class FriendshipService {
     public List<Friendship> getFriendshipsByUserId(Integer userId) {
         return friendshipRepository.findByUserId_Id(userId);
     }
+
+    public void createFriendship(Friendship newFriendship) {
+        friendshipRepository.save(newFriendship);
+    }
 }

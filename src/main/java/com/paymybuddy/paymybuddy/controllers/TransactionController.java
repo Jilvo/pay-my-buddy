@@ -47,6 +47,7 @@ public class TransactionController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         User user = userService.findUserByEmail(email);
+        model.addAttribute("user", user);
         int userId = user.getUserId();
         List<Friendship> friendships = friendshipService.getFriendshipsByUserId(userId);
         model.addAttribute("friendships", friendships);
@@ -82,12 +83,12 @@ public class TransactionController {
 
     @PostMapping("/create_transaction")
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
-            @RequestParam("amount") BigDecimal amount) {
+            @RequestParam("amount") BigDecimal amount, @RequestParam("description") String description) {
         User receiverUser = userService.getUserById(receiver);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         User sender_user = userService.findUserByEmail(email);
-        Transaction transaction = new Transaction("test", amount, sender_user, receiverUser);
+        Transaction transaction = new Transaction(description, amount, sender_user, receiverUser);
         System.out.println("TransactionController.createTransaction");
         transactionService.createTransaction(transaction);
         return new RedirectView("transfer");

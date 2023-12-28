@@ -45,7 +45,7 @@
                   th:each="friendship : ${friendships}"
                   th:id="${friendship.friendId.id}"
                   th:value="${friendship.friendId.id}"
-                  th:text="${friendship.friendId.first_name}"
+                  th:text="|${friendship.friendId.first_name} ${friendship.friendId.last_name}|"
                 ></option>
               </select>
               <input
@@ -54,6 +54,13 @@
                 placeholder="0€"
                 class="border border-gray-300 rounded p-2"
               />
+              <input
+                type="text"
+                name="description"
+                placeholder="description"
+                class="border border-gray-300 rounded p-2"
+              />
+              <p>Current balance : <span th:text="${user.balance}"></span></p>
             </div>
             <button class="bg-green-500 text-white py-2 px-4 rounded">
               Pay
@@ -132,7 +139,7 @@
                 th:value="${_csrf.token}"
               />
               <select
-                name="unconnectedUsers"
+                name="new_friend_id"
                 class="border border-gray-300 rounded p-2"
               >
                 <option>Select A User to Connect with</option>
