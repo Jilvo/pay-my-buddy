@@ -7,6 +7,8 @@ import com.paymybuddy.paymybuddy.services.FriendshipService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
 import com.paymybuddy.paymybuddy.services.UserService;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
@@ -82,15 +85,24 @@ public class TransactionController {
     }
 
     @PostMapping("/create_transaction")
+    @Transactional
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
-            @RequestParam("amount") BigDecimal amount, @RequestParam("description") String description) {
+            @RequestParam("amount") BigDecimal amount, @RequestParam("description") String description,
+            RedirectAttributes redirectAttributes) {
         User receiverUser = userService.getUserById(receiver);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = userDetails.getUsername();
         User sender_user = userService.findUserByEmail(email);
         Transaction transaction = new Transaction(description, amount, sender_user, receiverUser);
-        System.out.println("TransactionController.createTransaction");
+        Boolean is_balance_enougth = userService.checkCurrentBalance(sender_user, amount);
+        if (is_balance_enougth == false) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Not enough money in your bank account to create transaction");
+            return new RedirectView("transfer");
+        }
         transactionService.createTransaction(transaction);
+        userService.decrementBalance(sender_user, amount);
+        userService.incrementBalance(receiverUser, amount);
         return new RedirectView("transfer");
     }
 }

@@ -12,7 +12,9 @@
   </head>
   <body>
     <div th:insert="~{base :: common-nav}"></div>
-
+    <div id="errorDialog" class="hidden">
+      <p id="errorMessage" th:text="${error}"></p>
+  </div>
     <div class="bg-gray-100 p-8">
       <div class="mb-6">
         <div class="flex flex-row justify-between">
@@ -75,18 +77,17 @@
           <table class="min-w-full">
             <thead class="bg-green-500 text-white">
               <tr>
-                <th class="p-2">Connections</th>
+                <th class="p-2">Send to</th>
                 <th class="p-2">Description</th>
                 <th class="p-2">Amount</th>
-                <th class="p-2">To</th>
               </tr>
             </thead>
             <tbody>
               <tr th:each="transaction : ${transactions}">
-                <td th:text="${transaction.sender_user.first_name}"></td>
+                <td th:text="|${transaction.receiver_user.first_name} ${transaction.receiver_user.last_name}|"></td>
                 <td th:text="${transaction.description}"></td>
                 <td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.receiver_user.first_name}"></td>
+
               </tr>
             </tbody>
           </table>
@@ -179,5 +180,13 @@
       .addEventListener("click", function () {
         document.getElementById("modal").classList.add("hidden");
       });
+    
+    window.onload = function() {
+    var errorDialog = document.getElementById('errorDialog');
+    var errorMessage = document.getElementById('errorMessage').innerText;
+    if (errorMessage) {
+        alert(errorMessage);
+    }
+}
   </script>
 </html>

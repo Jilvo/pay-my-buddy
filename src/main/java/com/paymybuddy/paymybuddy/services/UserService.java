@@ -1,5 +1,6 @@
 package com.paymybuddy.paymybuddy.services;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +65,28 @@ public class UserService implements UserDetailsService {
         users.removeIf(user -> user.getUserId() == userId);
 
         return userRepository.getUnconnectedUsers(userId);
+    }
+
+    public void decrementBalance(User sender_user, BigDecimal amount) {
+        BigDecimal sender_balance = sender_user.getBalance();
+        sender_balance = sender_balance.subtract(amount);
+        sender_user.setBalance(sender_balance);
+        userRepository.save(sender_user);
+    }
+
+    public void incrementBalance(User receiverUser, BigDecimal amount) {
+        BigDecimal receiver_balance = receiverUser.getBalance();
+        receiver_balance = receiver_balance.add(amount);
+        receiverUser.setBalance(receiver_balance);
+        userRepository.save(receiverUser);
+    }
+
+    public Boolean checkCurrentBalance(User sender_user, BigDecimal amount) {
+        BigDecimal sender_balance = sender_user.getBalance();
+        if (sender_balance.compareTo(amount) < 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

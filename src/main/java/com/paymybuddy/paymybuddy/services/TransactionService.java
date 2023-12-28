@@ -28,7 +28,6 @@ public class TransactionService {
     }
 
     public void createTransaction(Transaction transaction) {
-        System.out.println("TransactionService.createTransaction");
         transactionRepository.save(transaction);
     }
 }
