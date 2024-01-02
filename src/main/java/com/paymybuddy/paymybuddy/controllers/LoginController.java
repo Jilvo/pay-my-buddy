@@ -44,17 +44,16 @@ public class LoginController {
     }
 
     @PostMapping("/perform_signup")
-    // @Transactional
+    @Transactional
     public RedirectView performSignUp(@RequestParam("first_name") String first_name,
             @RequestParam("last_name") String last_name, @RequestParam("email") String email,
             @RequestParam("iban") String iban, @RequestParam("account_number") String account_number,
             @RequestParam("balance") BigDecimal balance,
             @RequestParam("password") String password) {
         User user = new User(first_name, last_name, password, email, balance, true, "USER");
-        // BankAccount account = new BankAccount(account_number, iban, user);
         User newUser = userService.createUser(user);
-
-        bankAccountService.createBankAccount(account_number, iban, newUser);
+        BankAccount account = new BankAccount(account_number, iban, newUser);
+        bankAccountService.createBankAccount(account);
         return new RedirectView("transfer");
     }
 }
