@@ -17,8 +17,11 @@ public class BankAccountService {
         this.bankAccountRepository = bankAccountRepository;
     }
 
-    public void createBankAccount(User user) {
-        BankAccount bankAccount = new BankAccount("test account_number", "test iban", user);
-        bankAccountRepository.save(bankAccount);
+    public BankAccount createBankAccount(String account_number, String iban, User newUser) {
+        System.out.println(account_number);
+        System.out.println(iban);
+        System.out.println(newUser);
+        BankAccount newBankAccount = new BankAccount(account_number, iban, newUser);
+        return bankAccountRepository.save(newBankAccount);
     }
 }

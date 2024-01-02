@@ -31,11 +31,11 @@ public class BankAccount {
     }
 
     public User getUser() {
-        return user;
+        return userId;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.userId = user;
     }
 
     @Id
@@ -50,15 +50,15 @@ public class BankAccount {
     public String iban;
 
     @ManyToOne
-    @JoinColumn(name = "user", nullable = false)
-    public User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    public User userId;
 
     public BankAccount() {
     }
 
-    public BankAccount(String account_number, String iban, User user) {
+    public BankAccount(String account_number, String iban, User userId) {
         this.account_number = account_number;
         this.iban = iban;
-        this.user = user;
+        this.userId = userId;
     }
 }

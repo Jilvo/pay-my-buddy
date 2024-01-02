@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -39,13 +40,15 @@ public class SecurityConfig {
                 http
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 .requestMatchers("/css/**", "/favicon.ico", "/", "/index", "/signup",
+                                                                "/login", "/perform_login",
                                                                 "/perform_signup")
                                                 .permitAll()
                                                 .requestMatchers("/user").hasAnyRole("USER")
                                                 .requestMatchers("/admin").hasAnyRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .formLogin(login -> login
-                                                .defaultSuccessUrl("/")
+                                                // .loginPage("/login")
+                                                .defaultSuccessUrl("/transfer")
                                                 .permitAll())
                                 .logout(logout -> logout
                                                 .logoutSuccessUrl("/"));
