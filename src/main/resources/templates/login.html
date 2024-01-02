@@ -16,7 +16,8 @@
         <h2 class="text-2xl font-bold mb-4 text-gray-800 text-center">
           Pay My Buddy
         </h2>
-        <form class="space-y-4" action="/login" method="post" th:csrf>
+        <form class="space-y-4" action="/login" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700"
               >Email</label
