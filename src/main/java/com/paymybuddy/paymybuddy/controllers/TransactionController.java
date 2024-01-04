@@ -8,9 +8,6 @@ import com.paymybuddy.paymybuddy.services.TransactionService;
 import com.paymybuddy.paymybuddy.services.UserService;
 
 import jakarta.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -25,7 +22,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 @Controller
 public class TransactionController {
@@ -99,10 +97,27 @@ public class TransactionController {
             redirectAttributes.addFlashAttribute("error",
                     "Not enough money in your bank account to create transaction");
             return new RedirectView("transfer");
+        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            redirectAttributes.addFlashAttribute("error",
+                    "Cannot create transaction with");
+            return new RedirectView("transfer");
         }
-        transactionService.createTransaction(transaction);
-        userService.decrementBalance(sender_user, amount);
-        userService.incrementBalance(receiverUser, amount);
-        return new RedirectView("transfer");
+        String regex = "^[0-9]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher((CharSequence) amount);
+
+        if (matcher.matches()) {
+            transactionService.createTransaction(transaction);
+            userService.decrementBalance(sender_user, amount);
+            BigDecimal fees = new BigDecimal("0.995");
+            BigDecimal amount_after_fees = amount.multiply(fees);
+            userService.incrementBalance(receiverUser, amount_after_fees);
+            return new RedirectView("transfer");
+        } else {
+            redirectAttributes.addFlashAttribute("error",
+                    "Cannot create transaction with");
+            return new RedirectView("transfer");
+        }
+
     }
 }
