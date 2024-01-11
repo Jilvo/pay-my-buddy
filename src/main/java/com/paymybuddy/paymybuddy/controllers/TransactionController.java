@@ -7,7 +7,7 @@ import com.paymybuddy.paymybuddy.services.FriendshipService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
 import com.paymybuddy.paymybuddy.services.UserService;
 
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -83,7 +83,7 @@ public class TransactionController {
     }
 
     @PostMapping("/create_transaction")
-    @Transactional
+    // @Transactional
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
             @RequestParam("amount") BigDecimal amount, @RequestParam("description") String description,
             RedirectAttributes redirectAttributes) {
@@ -104,7 +104,8 @@ public class TransactionController {
         }
         String regex = "^[0-9]+$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher((CharSequence) amount);
+        String amountString = amount.toString();
+        Matcher matcher = pattern.matcher(amountString);
 
         if (matcher.matches()) {
             transactionService.createTransaction(transaction);

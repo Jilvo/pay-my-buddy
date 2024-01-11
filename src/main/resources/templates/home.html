@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="UTF-8" />
-    <link
-      rel="stylesheet"
-      th:href="@{/styles/style.css}"
-      href="../static/styles/style.css"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Home</title>
-  </head>
-  <body>
-    <a
-      href="http://localhost:8080/swagger-ui/index.html#/authentication-controller/loginUser"
-      >Lien de l'API</a
-    >
-    <div th:insert="~{base :: common-nav}"></div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link
+          rel="stylesheet"
+          th:href="@{/styles/style.css}"
+          href="../static/styles/style.css"
+  />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Home</title>
+</head>
+<body>
+<a
+        href="http://localhost:8080/swagger-ui/index.html#/authentication-controller/loginUser"
+>Lien de l'API</a
+>
+<div th:insert="~{base :: common-nav}"></div>
+</body>
 </html>

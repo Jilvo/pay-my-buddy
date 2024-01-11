@@ -2,6 +2,7 @@ package com.paymybuddy.paymybuddy.controllers;
 
 import java.math.BigDecimal;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +15,10 @@ import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.services.BankAccountService;
 import com.paymybuddy.paymybuddy.services.UserService;
 
-import jakarta.transaction.Transactional;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+//import jakarta.transaction.Transactional;
 
 @Controller
 public class LoginController {
@@ -31,11 +35,22 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String performLogin(@ModelAttribute User user) {
+    @PostMapping("/perform_login")
+    public RedirectView performLogin(@ModelAttribute User user) {
         System.out.println("LoginController.performLogin");
         userService.connect(user);
-        return "transfer";
+
+        // Create an Authentication object
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+
+        // Set the Authentication in the SecurityContext
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Now the user should be authenticated
+        String username = authentication.getName();
+        boolean isAuthenticated = authentication.isAuthenticated();
+
+        return new RedirectView("/transfer");
     }
 
     @GetMapping("/signup")
@@ -44,7 +59,7 @@ public class LoginController {
     }
 
     @PostMapping("/perform_signup")
-    @Transactional
+    // @Transactional
     public RedirectView performSignUp(@RequestParam("first_name") String first_name,
             @RequestParam("last_name") String last_name, @RequestParam("email") String email,
             @RequestParam("iban") String iban, @RequestParam("account_number") String account_number,

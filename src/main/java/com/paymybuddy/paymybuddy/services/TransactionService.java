@@ -1,11 +1,8 @@
 package com.paymybuddy.paymybuddy.services;
-
 import com.paymybuddy.paymybuddy.models.Transaction;
-import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

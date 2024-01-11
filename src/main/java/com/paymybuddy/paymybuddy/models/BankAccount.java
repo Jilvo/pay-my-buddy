@@ -1,10 +1,39 @@
 package com.paymybuddy.paymybuddy.models;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "bank_account")
-public class BankAccount {
+@JsonIgnoreProperties({ "friendList" })
+
+public class BankAccount implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    public Integer id;
+
+    @Column(name = "account_number")
+    public String account_number;
+
+    @Column(unique = true, name = "iban")
+    public String iban;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    public User userId;
+
+    public BankAccount(String account_number, String iban, User userId) {
+        this.account_number = account_number;
+        this.iban = iban;
+        this.userId = userId;
+    }
+
+    public BankAccount() {
+    }
 
     public Integer getBankAccountId() {
         return id;
@@ -36,29 +65,5 @@ public class BankAccount {
 
     public void setUser(User user) {
         this.userId = user;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    public Integer id;
-
-    @Column(name = "account_number")
-    public String account_number;
-
-    @Column(unique = true, name = "iban")
-    public String iban;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    public User userId;
-
-    public BankAccount() {
-    }
-
-    public BankAccount(String account_number, String iban, User userId) {
-        this.account_number = account_number;
-        this.iban = iban;
-        this.userId = userId;
     }
 }

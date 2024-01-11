@@ -1,21 +1,35 @@
 package com.paymybuddy.paymybuddy.models;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "friendship")
-public class Friendship {
+public class Friendship implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    public User userId;
 
     @ManyToOne
-    @JoinColumn(name = "friendId", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    public User userId;
+
+    @Getter
+    @ManyToOne
+    @JoinColumn(name = "friend_id", nullable = false)
     public User friendId;
+
+    public Friendship(User userId, User friendId) {
+        this.userId = userId;
+        this.friendId = friendId;
+    }
+
+    public Friendship() {
+    }
 
     public Integer getId() {
         return id;
@@ -33,19 +47,8 @@ public class Friendship {
         this.userId = userId;
     }
 
-    public User getFriendId() {
-        return friendId;
-    }
-
     public void setFriendId(User friendId) {
         this.friendId = friendId;
     }
 
-    public Friendship() {
-    }
-
-    public Friendship(User userId, User friendId) {
-        this.userId = userId;
-        this.friendId = friendId;
-    }
 }

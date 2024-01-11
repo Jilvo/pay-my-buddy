@@ -1,21 +1,54 @@
 package com.paymybuddy.paymybuddy.models;
 
-import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 @Entity
 @Table(name = "user")
-public class User implements UserDetails {
+public class User implements Serializable, UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    public Integer id;
+    public int id;
+
+    @Column
+    public String first_name;
+    @Column
+    public String last_name;
+    @Column
+    public String password;
+    @Column
+    public String email;
+
+    @Column(precision = 10, scale = 2)
+    public BigDecimal balance;
+
+    @Column
+    public Boolean enabled;
+    @Column
+    public String role;
+
+    public User(String first_name, String last_name, String password, String email, BigDecimal balance, Boolean enabled,
+            String role) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+        this.email = email;
+        this.balance = balance;
+        this.enabled = enabled;
+        this.role = role;
+    }
+
+    public User() {
+    }
 
     public Integer getUserId() {
         return id;
@@ -41,6 +74,7 @@ public class User implements UserDetails {
         this.last_name = last_name;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -55,6 +89,44 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+        if (this.role != null && !this.role.isEmpty()) {
+            grantedAuthorityList.add(new SimpleGrantedAuthority(this.role));
+        }
+        return grantedAuthorityList;
+    }
+
+    @Override
+    public String getUsername() {
+
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public BigDecimal getBalance() {
@@ -79,73 +151,6 @@ public class User implements UserDetails {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    @Column
-    public String first_name;
-    @Column
-    public String last_name;
-    @Column
-    public String password;
-    @Column
-    public String email;
-
-    @Column(precision = 10, scale = 2)
-    public BigDecimal balance;
-
-    @Column
-    public Boolean enabled;
-    @Column
-    public String role;
-
-    public User() {
-    }
-
-    public User(String first_name, String last_name, String password, String email, BigDecimal balance, Boolean enabled,
-            String role) {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.password = password;
-        this.email = email;
-        this.balance = balance;
-        this.enabled = enabled;
-        this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
-    }
-
-    @Override
-    public String getUsername() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        // Replace with your actual logic
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        return true;
     }
 
 }
