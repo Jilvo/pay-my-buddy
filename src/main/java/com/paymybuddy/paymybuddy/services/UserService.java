@@ -38,8 +38,13 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(String role) {
-        return null;
+    public Boolean isUserExist(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void connect(User user) {

@@ -85,38 +85,45 @@ public class TransactionController {
     @PostMapping("/create_transaction")
     // @Transactional
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
-            @RequestParam("amount") BigDecimal amount, @RequestParam("description") String description,
+            @RequestParam("amount") String amountStr, @RequestParam("description") String description,
             RedirectAttributes redirectAttributes) {
-        User receiverUser = userService.getUserById(receiver);
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = userDetails.getUsername();
-        User sender_user = userService.findUserByEmail(email);
-        Transaction transaction = new Transaction(description, amount, sender_user, receiverUser);
-        Boolean is_balance_enougth = userService.checkCurrentBalance(sender_user, amount);
-        if (is_balance_enougth == false) {
+        try {
+            BigDecimal amount = new BigDecimal(amountStr);
+            User receiverUser = userService.getUserById(receiver);
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication()
+                    .getPrincipal();
+            String email = userDetails.getUsername();
+            User sender_user = userService.findUserByEmail(email);
+            Transaction transaction = new Transaction(description, amount, sender_user, receiverUser);
+            Boolean is_balance_enougth = userService.checkCurrentBalance(sender_user, amount);
+            if (is_balance_enougth == false) {
+                redirectAttributes.addFlashAttribute("error",
+                        "Not enough money in your bank account to create transaction");
+                return new RedirectView("transfer");
+            } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
+                redirectAttributes.addFlashAttribute("error",
+                        "Cannot create transaction with negative amount");
+                return new RedirectView("transfer");
+            }
+            String regex = "^[0-9]+$";
+            Pattern pattern = Pattern.compile(regex);
+            String amountString = amount.toString();
+            Matcher matcher = pattern.matcher(amountString);
+            if (matcher.matches()) {
+                transactionService.createTransaction(transaction);
+                userService.decrementBalance(sender_user, amount);
+                BigDecimal fees = new BigDecimal("0.995");
+                BigDecimal amount_after_fees = amount.multiply(fees);
+                userService.incrementBalance(receiverUser, amount_after_fees);
+                return new RedirectView("transfer");
+            } else {
+                redirectAttributes.addFlashAttribute("error",
+                        "Cannot create transaction with");
+                return new RedirectView("transfer");
+            }
+        } catch (NumberFormatException e) {
             redirectAttributes.addFlashAttribute("error",
-                    "Not enough money in your bank account to create transaction");
-            return new RedirectView("transfer");
-        } else if (amount.compareTo(BigDecimal.ZERO) < 0) {
-            redirectAttributes.addFlashAttribute("error",
-                    "Cannot create transaction with");
-            return new RedirectView("transfer");
-        }
-        String regex = "^[0-9]+$";
-        Pattern pattern = Pattern.compile(regex);
-        String amountString = amount.toString();
-        Matcher matcher = pattern.matcher(amountString);
-
-        if (matcher.matches()) {
-            transactionService.createTransaction(transaction);
-            userService.decrementBalance(sender_user, amount);
-            BigDecimal fees = new BigDecimal("0.995");
-            BigDecimal amount_after_fees = amount.multiply(fees);
-            userService.incrementBalance(receiverUser, amount_after_fees);
-            return new RedirectView("transfer");
-        } else {
-            redirectAttributes.addFlashAttribute("error",
-                    "Cannot create transaction with");
+                    "Invalid amount. Please enter a valid number.");
             return new RedirectView("transfer");
         }
 
