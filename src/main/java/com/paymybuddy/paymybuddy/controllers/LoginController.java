@@ -38,13 +38,10 @@ public class LoginController {
         System.out.println("LoginController.performLogin");
         userService.connect(user);
 
-        // Create an Authentication object
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-        // Set the Authentication in the SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Now the user should be authenticated
         String username = authentication.getName();
         boolean isAuthenticated = authentication.isAuthenticated();
 

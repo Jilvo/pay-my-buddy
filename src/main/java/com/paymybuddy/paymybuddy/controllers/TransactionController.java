@@ -6,8 +6,6 @@ import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.services.FriendshipService;
 import com.paymybuddy.paymybuddy.services.TransactionService;
 import com.paymybuddy.paymybuddy.services.UserService;
-
-//import jakarta.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -22,8 +20,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class TransactionController {
@@ -32,7 +30,7 @@ public class TransactionController {
     private final UserService userService;
 
     public TransactionController(TransactionService transactionService, FriendshipService friendshipService,
-            UserService userService) {
+                                 UserService userService) {
         this.transactionService = transactionService;
         this.friendshipService = friendshipService;
         this.userService = userService;
@@ -51,6 +49,8 @@ public class TransactionController {
         model.addAttribute("user", user);
         int userId = user.getUserId();
         List<Friendship> friendships = friendshipService.getFriendshipsByUserId(userId);
+        Friendship user_account = new Friendship(user, user);
+        friendships.add(user_account);
         model.addAttribute("friendships", friendships);
 
         // Get unconnected users
@@ -58,9 +58,7 @@ public class TransactionController {
 
         List<User> usersToRemove = new ArrayList<>();
         for (User user_item : unconnectedUsers) {
-            // Loop through each friendship
             for (Friendship friendship : friendships) {
-                // If the user is in the friendship, add them to the list of users to be removed
                 if (friendship.getFriendId().getUserId() == user_item.getUserId()) {
                     usersToRemove.add(user_item);
                     break;
@@ -74,19 +72,14 @@ public class TransactionController {
         // Get all transactions from User ID
         List<Transaction> transactions = transactionService.getTransactionsByUserId(userId);
         model.addAttribute("transactions", transactions);
-
-        // Get current user from Spring Security
-        // List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
-        // model.addAttribute("bankAccounts", bankAccounts);
-
         return "transfer";
     }
 
     @PostMapping("/create_transaction")
     // @Transactional
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
-            @RequestParam("amount") String amountStr, @RequestParam("description") String description,
-            RedirectAttributes redirectAttributes) {
+                                          @RequestParam("amount") String amountStr, @RequestParam("description") String description,
+                                          RedirectAttributes redirectAttributes) {
         try {
             BigDecimal amount = new BigDecimal(amountStr);
             User receiverUser = userService.getUserById(receiver);

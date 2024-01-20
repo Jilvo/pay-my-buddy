@@ -43,6 +43,10 @@ public class Friendship implements Serializable {
         return userId;
     }
 
+    public User getFriendId() {
+        return friendId;
+    }
+
     public void setUserId(User userId) {
         this.userId = userId;
     }
