@@ -30,7 +30,7 @@ public class TransactionController {
     private final UserService userService;
 
     public TransactionController(TransactionService transactionService, FriendshipService friendshipService,
-                                 UserService userService) {
+            UserService userService) {
         this.transactionService = transactionService;
         this.friendshipService = friendshipService;
         this.userService = userService;
@@ -78,8 +78,8 @@ public class TransactionController {
     @PostMapping("/create_transaction")
     // @Transactional
     public RedirectView createTransaction(@RequestParam("friendship") int receiver,
-                                          @RequestParam("amount") String amountStr, @RequestParam("description") String description,
-                                          RedirectAttributes redirectAttributes) {
+            @RequestParam("amount") String amountStr, @RequestParam("description") String description,
+            RedirectAttributes redirectAttributes) {
         try {
             BigDecimal amount = new BigDecimal(amountStr);
             User receiverUser = userService.getUserById(receiver);

@@ -3,6 +3,7 @@ package com.paymybuddy.paymybuddy.services;
 import com.paymybuddy.paymybuddy.models.User;
 import com.paymybuddy.paymybuddy.repositories.UserRepository;
 import com.paymybuddy.paymybuddy.services.UserService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -48,6 +49,13 @@ public class UserServiceTest {
         User createdUser = userService.createUser(user);
 
         assertEquals(user, createdUser);
+
+        assertEquals("John", createdUser.getFirstName());
+        assertEquals("Doe", createdUser.getLastName());
+        assertEquals("john.doe@example.com", createdUser.getEmail());
+        assertEquals(new BigDecimal("100.00"), createdUser.getBalance());
+        assertEquals("USER", createdUser.getRole());
+
         System.out.println(userRepository.findAll());
     }
 

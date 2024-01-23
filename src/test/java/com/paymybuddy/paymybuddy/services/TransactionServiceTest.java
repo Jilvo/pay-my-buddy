@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 public class TransactionServiceTest {
@@ -68,6 +69,13 @@ public class TransactionServiceTest {
         transaction.setReceiver_user(receiverFriend);
 
         transactionService.createTransaction(transaction);
+
+        assertEquals("Transaction description", transaction.getDescription());
+        assertEquals(new BigDecimal("100.00"), transaction.getAmount());
+        assertNull(transaction.getDate());
+        assertEquals(senderUser, transaction.getSender_user());
+        assertEquals(receiverFriend, transaction.getReceiver_user());
+
 
         verify(transactionRepository, times(1)).save(transaction);
     }

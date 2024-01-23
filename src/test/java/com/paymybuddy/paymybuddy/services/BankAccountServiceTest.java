@@ -38,6 +38,10 @@ public class BankAccountServiceTest {
         BankAccount result = bankAccountService.createBankAccount(account);
 
         assertEquals(account, result);
+        assertEquals("Bank", result.getAccountNumber());
+        assertEquals("FR76 3000 1007 1600 0000 0000 123", result.getIban());
+        assertEquals(user, result.getUser());
+
         verify(bankAccountRepository, times(1)).save(account);
     }
 }
