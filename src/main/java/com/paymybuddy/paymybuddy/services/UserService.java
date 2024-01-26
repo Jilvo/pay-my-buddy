@@ -4,10 +4,12 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.paymybuddy.paymybuddy.models.User;
@@ -17,6 +19,8 @@ import com.paymybuddy.paymybuddy.repositories.UserRepository;
 public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -25,6 +29,7 @@ public class UserService implements UserDetailsService {
     public User createUser(User user) {
         User newUser = new User(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail(),
                 user.getBalance(), true, "USER");
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(newUser);
     }
 
